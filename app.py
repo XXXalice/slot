@@ -12,6 +12,8 @@ def main():
 
 def get_data(date):
     anaslo = Anaslo(shop_name=default_shop, date=date)
-    anaslo.fetch()
+    rows = anaslo.fetch()
+    anaslo.to_csv(rows=rows)
+
 if __name__ == '__main__':
     main()
