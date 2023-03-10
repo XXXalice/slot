@@ -24,4 +24,5 @@ http://netsu-n.mep.titech.ac.jp/~Kawaguchi/python/install-win/
 9. filesっていうフォルダの中に作ったファイルができてる
 
 
-ps つまったら聞いて
+
+ps つまったら聞いて、店舗も自由に変えられる
