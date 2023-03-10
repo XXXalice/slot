@@ -19,10 +19,10 @@ http://netsu-n.mep.titech.ac.jp/~Kawaguchi/python/install-win/
 4. 今あるのを消して、`cmd`と入力し、ENTER  
 5. コマンドプロンプトが立ち上がったら、`pip install -r requirements.txt`と入力（コピペでOK）
 6. 終わったら、`python app.py`と入力してENTER
-7. 日付を聞かれるので、`0311`のように4けたの数字を入力してENTER
+7. 日付を聞かれるので、`0311`のように4けたの数字を入力してENTER（デフォは2023年）
 8. ファイル完成
 9. filesっていうフォルダの中に作ったファイルができてる
 
 
 
-ps つまったら聞いて、店舗も自由に変えられるよ
+ps つまったら聞いて、店舗も年度も自由に変えられるよ
