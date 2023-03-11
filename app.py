@@ -7,7 +7,7 @@ default_year = "2023"
 
 
 def main():
-    print("アナスロゲッター ver1.0")
+    print("アナスロゲッター ver1.1")
     print("現在のターゲット店舗：{}".format(default_shop))
     print("現在のターゲット西暦：{}".format(default_year))
     date = input("取得したい日付（4桁）もしくは月（1桁）を入力してください（例 0311 or 2）：").strip()
