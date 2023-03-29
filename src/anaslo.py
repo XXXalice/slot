@@ -6,11 +6,11 @@ import datetime
 
 class Anaslo():
 
-    def __init__(self, shop_name, date, area="東京都"):
+    def __init__(self, shop_name, year, date, area="東京都"):
         self.shop_name = shop_name
         self.url_host = "https://ana-slo.com/"
         self.url_path_from_pref = "ホールデータ/{}/{}-データ一覧/".format(area, self.shop_name)
-        self.date_str = self._get_date(date_string=date)
+        self.date_str = self._get_date(year_string=year, date_string=date)
         self.url_path_from_shop = "ホールデータ/{}-{}-data/".format(self.date_str, self.shop_name).replace(" ", "")
         self._log("URLの初期化が完了しました。")
 
@@ -20,9 +20,9 @@ class Anaslo():
                                 "Chrome/62.0.3202.94 Safari/537.36"}
         return header
 
-    def _get_date(self, date_string):
+    def _get_date(self, year_string, date_string):
         try:
-            year = "2023" if len(date_string) != 7 else date_string[:4]
+            year = year_string if len(date_string) != 7 else date_string[:4]
             month = date_string[:2] if len(date_string) != 7 else date_string[5:7]
             day = date_string[2:4] if len(date_string) != 7 else date_string[7:8]
             dt = datetime.datetime(year=int(year), month=int(month), day=int(day))

@@ -3,11 +3,11 @@ import calendar
 from src.anaslo import Anaslo
 
 default_shop = "アット小平"
-default_year = "2023"
+default_year = "2022"
 
 
 def main():
-    print("アナスロゲッター ver1.1")
+    print("アナスロゲッター ver1.2")
     print("現在のターゲット店舗：{}".format(default_shop))
     print("現在のターゲット西暦：{}".format(default_year))
     date = input("取得したい日付（4桁）もしくは月（1桁）を入力してください（例 0311 or 2）：").strip()
@@ -15,7 +15,7 @@ def main():
 
 
 def get_data(date):
-    anaslo = Anaslo(shop_name=default_shop, date=date)
+    anaslo = Anaslo(shop_name=default_shop, year=default_year, date=date)
     rows = anaslo.fetch()
     anaslo.to_csv(rows=rows)
 
