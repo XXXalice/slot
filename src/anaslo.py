@@ -72,8 +72,19 @@ class Anaslo():
                     row.extend(datas)
                     rows.append(row)
         self._log("全機種データの処理に成功しました。")
+        self._sanitize(rows=rows)
+        return rows
+
+    # 平均がいらないため除外していく
+    def _sanitize(self, rows):
+        for row in rows:
+            if row[2] == "平均":
+                # 平均値を抜きます
+                rows.remove(row)
 
         return rows
+
+
 
     def _req(self, target):
         raw_data = requests.get(url=target, headers=self._get_header())

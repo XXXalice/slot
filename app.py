@@ -4,7 +4,7 @@ from src.command import suggest
 shop = "アット小平"
 
 def main():
-    print("アナスロゲッター ver2.0")
+    print("アナスロゲッター ver1.2.0")
     print("現在のターゲット店舗：{}".format(shop))
     target_date = suggest()
     get_data(target_date)

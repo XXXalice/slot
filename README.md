@@ -1,6 +1,6 @@
 # アナスロゲッター
 by ウメ宮  
-ver 1.1~~~~
+ver 1.2.0
 ## 使い方
 zipをダウンロード
 https://github.com/XXXalice/slot/archive/refs/heads/main.zip
