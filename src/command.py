@@ -8,6 +8,10 @@ def suggest():
     # except ValueError:
     #     print("[ERROR] 入力された日付が無効です")
     #     exit()
+    data = {
+        "year": year,
+        "date": date
+    }
 
-    return year + date
+    return data
 

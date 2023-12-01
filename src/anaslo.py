@@ -13,6 +13,7 @@ class Anaslo():
         self.date_str = self._get_date(year_string=year, date_string=date)
         self.url_path_from_shop = "ホールデータ/{}-{}-data/".format(self.date_str, self.shop_name).replace(" ", "")
         self._log("URLの初期化が完了しました。")
+        self._log(f"日付のセッティングが完了しました。（{year}-{date}）")
 
     def _get_header(self, mode="safari"):
         header = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "

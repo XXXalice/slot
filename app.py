@@ -11,8 +11,7 @@ def main():
 
 
 def get_data(target_date):
-    print(f"{target_date[:4]}   {target_date[5:]}")
-    anaslo = Anaslo(shop_name=shop, year=target_date[:4], date=target_date[4:])
+    anaslo = Anaslo(shop_name=shop, year=target_date.get("year"), date=target_date.get("date"))
     rows = anaslo.fetch()
     anaslo.to_csv(rows=rows)
 
