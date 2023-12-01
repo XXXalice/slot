@@ -29,8 +29,8 @@ class Anaslo():
             dt = datetime.datetime(year=int(year), month=int(month), day=int(day))
             return dt.strftime("%Y-%m-%d")
         except:
-            print("[ERROR] 日付変換に失敗しました.\n"
-                  "MMDDの4桁もしくは YYYYMMDDの8桁の数字形式で入力してください.")
+            print("[ERROR] 日付変換に失敗しました。\n"
+                  "正しい日付を入力してください。")
             exit()
 
     def fetch(self):
