@@ -1,6 +1,6 @@
 # アナスロゲッター
 by ウメ宮  
-ver 1.2.0
+ver 1.3.0
 ## 使い方
 zipをダウンロード
 https://github.com/XXXalice/slot/archive/refs/heads/main.zip
@@ -19,8 +19,7 @@ http://netsu-n.mep.titech.ac.jp/~Kawaguchi/python/install-win/
 4. 今あるのを消して、`cmd`と入力し、ENTER  
 5. コマンドプロンプトが立ち上がったら、`pip install -r requirements.txt`と入力（コピペでOK）
 6. 終わったら、`python app.py`と入力してENTER
-7. 日付を聞かれるので、`0311`のように4けたの数字 もしくは `2`のように月データを入力してENTER（デフォは2023年）
-8. ファイル完成
+7. ファイル完成
 9. filesっていうフォルダの中に作ったファイルができてる
 
 
