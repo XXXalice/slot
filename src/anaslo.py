@@ -2,18 +2,31 @@ from bs4 import BeautifulSoup
 from tqdm import tqdm
 import requests
 import datetime
+import calendar
+import re
 
 
 class Anaslo():
 
-    def __init__(self, shop_name, year, date, area="東京都"):
+    def __init__(self, shop_name, year, date, month_mode, area="東京都"):
         self.shop_name = shop_name
         self.url_host = "https://ana-slo.com/"
-        self.url_path_from_pref = "ホールデータ/{}/{}-データ一覧/".format(area, self.shop_name)
-        self.date_str = self._get_date(year_string=year, date_string=date)
-        self.url_path_from_shop = "ホールデータ/{}-{}-data/".format(self.date_str, self.shop_name).replace(" ", "")
+        self.target_date_list = []
+        self.target_url_list = []
+        self.year = year
+        self.month = date[:2]
+        # 日単位での取得or月単位
+        self.month_mode = month_mode
+        if month_mode:
+            self.target_date_list = self._get_days_list_from_month()
+        else:
+            self.date = date[2:]
+            self.target_date_list.append(self._get_date())
+
+        for target_date in self.target_date_list:
+            url = self.url_host + f"ホールデータ/{target_date}-{self.shop_name}-data/".replace(" ", "")
+            self.target_url_list.append(url)
         self._log("URLの初期化が完了しました。")
-        self._log(f"日付のセッティングが完了しました。（{year}-{date}）")
 
     def _get_header(self, mode="safari"):
         header = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -21,21 +34,29 @@ class Anaslo():
                                 "Chrome/62.0.3202.94 Safari/537.36"}
         return header
 
-    def _get_date(self, year_string, date_string):
+    def _get_days_list_from_month(self):
         try:
-            year = year_string if len(date_string) != 7 else date_string[:4]
-            month = date_string[:2] if len(date_string) != 7 else date_string[5:7]
-            day = date_string[2:4] if len(date_string) != 7 else date_string[7:8]
-            dt = datetime.datetime(year=int(year), month=int(month), day=int(day))
-            return dt.strftime("%Y-%m-%d")
+            day_num = calendar.monthrange(self.year, self.month)
+            target_day_list = []
+            for day in range(1, day_num+1):
+                target_day_list.append(f"{self.year}-{self.month}-{day}")
         except:
+            # TODO 2,5など正しい月でも1桁だと落ちる
             print("[ERROR] 日付変換に失敗しました。\n"
                   "正しい日付を入力してください。")
             exit()
+        return target_day_list
 
-    def fetch(self):
-        target = self.url_host + self.url_path_from_shop
-        raw_data = self._req(target=target)
+    def _get_date(self):
+        return f"{self.year}-{self.month}-{self.date}"
+
+    def fetch_all(self):
+        for target_url in self.target_url_list:
+            self.fetch(target_url)
+
+    def fetch(self, target_url):
+        date = re.search(r"[0-9]{4}-[0-9]{2}-[0-9]{2}", target_url).group()
+        raw_data = self._req(target=target_url)
         data = BeautifulSoup(raw_data.content, "lxml")
         tables = data.find("table", class_="unit_get_medals_table") \
             .find_all("td", class_="table_cells")
@@ -60,7 +81,7 @@ class Anaslo():
                 for section_data in section_datas:
                     data_doms = section_data.find_all("td", class_="table_cells")
                     datas = [dom.text.replace(',', '') for dom in data_doms]
-                    row = [self.date_str, section_name]
+                    row = [date, section_name]
                     row.extend(datas)
                     rows.append(row)
             else:
@@ -69,7 +90,7 @@ class Anaslo():
                 for section_data in section_datas:
                     data_doms = section_data.find_all("td")
                     datas = [dom.text.replace(',', '') for dom in data_doms]
-                    row = [self.date_str]
+                    row = [date]
                     row.extend(datas)
                     rows.append(row)
         self._log("全機種データの処理に成功しました。")
