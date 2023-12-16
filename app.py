@@ -12,8 +12,7 @@ def main():
 
 def get_data(data):
     anaslo = Anaslo(shop_name=shop, year=data.get("year"), date=data.get("date"), month_mode=data.get("month_mode"))
-    rows = anaslo.fetch_all()
-    anaslo.to_csv(rows=rows)
+    anaslo.fetch_all()
 
 
 if __name__ == '__main__':

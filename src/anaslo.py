@@ -15,6 +15,7 @@ class Anaslo():
         self.target_url_list = []
         self.year = year
         self.month = date[:2]
+        self.date = date[2:]
         # 日単位での取得or月単位
         self.month_mode = month_mode
         if month_mode:
@@ -50,9 +51,11 @@ class Anaslo():
     def _get_date(self):
         return f"{self.year}-{self.month}-{self.date}"
 
-    def fetch_all(self):
+    def fetch_all(self, to_csv=True):
         for target_url in self.target_url_list:
-            self.fetch(target_url)
+            rows = self.fetch(target_url)
+            if to_csv:
+                self.to_csv(rows=rows)
 
     def fetch(self, target_url):
         date = re.search(r"[0-9]{4}-[0-9]{2}-[0-9]{2}", target_url).group()
@@ -117,7 +120,7 @@ class Anaslo():
         print("[正常] {}".format(msg))
 
     def to_csv(self, rows):
-        path = "./files/{}-{}.csv".format(self.date_str, self.shop_name)
+        path = "./files/{}-{}-{}-{}.csv".format(self.year, self.month, self.date, self.shop_name)
         with open(path, mode='w', encoding="utf_8_sig") as f:
             for row in rows:
                 f.write(','.join(row) + "\n")
