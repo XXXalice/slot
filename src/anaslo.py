@@ -36,16 +36,12 @@ class Anaslo():
         return header
 
     def _get_days_list_from_month(self):
-        try:
-            day_num = calendar.monthrange(self.year, self.month)
-            target_day_list = []
-            for day in range(1, day_num+1):
-                target_day_list.append(f"{self.year}-{self.month}-{day}")
-        except:
-            # TODO 2,5など正しい月でも1桁だと落ちる
-            print("[ERROR] 日付変換に失敗しました。\n"
-                  "正しい日付を入力してください。")
-            exit()
+        day_num = calendar.monthrange(int(self.year), int(self.month))[1]
+        target_day_list = []
+        for day in range(1, day_num+1):
+            target_day_list.append(f"{self.year}-{self.month}-{day:02}")
+
+        print(target_day_list)
         return target_day_list
 
     def _get_date(self):
@@ -55,7 +51,7 @@ class Anaslo():
         for target_url in self.target_url_list:
             rows = self.fetch(target_url)
             if to_csv:
-                self.to_csv(rows=rows)
+                self.to_csv_for_targeturl(rows=rows, target_url=target_url)
 
     def fetch(self, target_url):
         date = re.search(r"[0-9]{4}-[0-9]{2}-[0-9]{2}", target_url).group()
@@ -109,8 +105,6 @@ class Anaslo():
 
         return rows
 
-
-
     def _req(self, target):
         raw_data = requests.get(url=target, headers=self._get_header())
         self._log("ページのリクエストに成功しました。")
@@ -121,6 +115,15 @@ class Anaslo():
 
     def to_csv(self, rows):
         path = "./files/{}-{}-{}-{}.csv".format(self.year, self.month, self.date, self.shop_name)
+        with open(path, mode='w', encoding="utf_8_sig") as f:
+            for row in rows:
+                f.write(','.join(row) + "\n")
+        self._log("ファイルの作成が完了しました。ファイル名:{}".format(path.split("/")[-1]))
+
+    def to_csv_for_targeturl(self, rows, target_url):
+        # クソコード
+        filename = "-".join(target_url.split("/")[-2].split("-")[:-1])
+        path = "./files/{}.csv".format(filename)
         with open(path, mode='w', encoding="utf_8_sig") as f:
             for row in rows:
                 f.write(','.join(row) + "\n")
